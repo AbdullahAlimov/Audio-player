@@ -128,6 +128,7 @@ function refreshSong() {
 
     audio = document.querySelector(".swiper-slide-active audio");
     addAudioEvents(audio);
+    audio.volume=volumeSong.value/100;
     return audio;
 }
 
