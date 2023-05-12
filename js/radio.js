@@ -23,6 +23,7 @@ radioGanres.addEventListener('click', function(event){
         let station=document.querySelector(`.${targetID}`);
         refreshStation(station);
         audio.pause();
+        inputVolume ();
     }
 });
 function refreshStation(station){
