@@ -90,7 +90,7 @@ function addAudioEvents(audio){
     function cleanPreviousSong(audio){
         audio.removeEventListener('ended',endedSong);
         audio.removeEventListener('timeupdate',timeupdateSong);
-        playerSlider.removeEventListener('click',inputPlayer);
+        playerSlider.removeEventListener('input',inputPlayer);
         document.querySelectorAll(".swich_btn").forEach(
             swichButton=>swichButton.removeEventListener('click',clickSwichBtn));
     }
