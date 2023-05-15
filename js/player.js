@@ -182,7 +182,7 @@ function showTags(url) {
             window.btoa(base64String);
         var picture = base64;
     } else {
-        var picture = "/img/cover1_rqnbjm.png";
+        var picture = "img/cover1_rqnbjm.png";
     }
     document.querySelector(".user").insertAdjacentHTML(
         "beforeend",
