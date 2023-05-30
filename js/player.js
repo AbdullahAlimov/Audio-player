@@ -129,6 +129,8 @@ function refreshSong() {
     audio = document.querySelector(".swiper-slide-active audio");
     addAudioEvents(audio);
     audio.volume=volumeSong.value/100;
+    audio.currentTime=0;
+    playerSlider.value=0;
     return audio;
 }
 
@@ -200,5 +202,5 @@ function showTags(url) {
     </div>
     `)
     let swiper = document.querySelector('.swiper-container').swiper;
-    refreshSwiper(swiper);
+    swiper.update();
 }
