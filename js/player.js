@@ -199,4 +199,6 @@ function showTags(url) {
         </div>
     </div>
     `)
+    let swiper = document.querySelector('.swiper-container').swiper;
+    refreshSwiper(swiper);
 }
