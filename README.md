@@ -1,5 +1,6 @@
 # Audio Player
 
+**Сайт только для компьютеров**
 **Ссылка на сайт (GitHub Pages):** [Audio Player](https://abdullahalimov.github.io/Audio-player/)
 
 Этот проект представляет собой aудио-плеер, обладающий рядом интересных функциональных возможностей.
