@@ -1,11 +1,10 @@
-
 const swich = document.querySelector(".navigation__swich");
 const playerSlider = document.querySelector(".player__slider");
 const replaySong = document.querySelector(".navigation__replay");
 const nextSong = document.querySelector(".navigation__next");
 const prevSong = document.querySelector(".navigation__prev");
-const buttonVolumeSong=document.querySelector(".navigation__volume-button");
-const volumeSong=document.querySelector(".navigation__volume-slider");
+const buttonVolumeSong = document.querySelector(".navigation__volume-button");
+const volumeSong = document.querySelector(".navigation__volume-slider");
 
 swich.addEventListener('click', function () {
     let audio = refreshSong();
@@ -21,109 +20,118 @@ swich.addEventListener('click', function () {
 });
 
 
-function addAudioEvents(audio){
+function addAudioEvents(audio) {
     document.querySelectorAll(".swich_btn").forEach(
-        swichButton=>swichButton.addEventListener('click',clickSwichBtn));
+        swichButton => swichButton.addEventListener('click', clickSwichBtn));
 
-    audio.addEventListener('ended',endedSong);
+    audio.addEventListener('ended', endedSong);
 
-    audio.addEventListener('timeupdate',timeupdateSong);
+    audio.addEventListener('timeupdate', timeupdateSong);
 
-    playerSlider.addEventListener('input',clickPlayer);
+    playerSlider.addEventListener('input', clickPlayer);
+    playerSlider.addEventListener('change', onChangePlayer);
 
-    volumeSong.addEventListener('input',inputVolume);
+    volumeSong.addEventListener('input', inputVolume);
 
-    function clickSwichBtn (){
+    function clickSwichBtn() {
         audio.pause();
-        audio.currentTime=0;
-        playerSlider.value=0;
+        audio.currentTime = 0;
+        playerSlider.value = 0;
         cleanPreviousSong(audio);
         let newAudio = refreshSong();
-        if(!swich.classList.contains("active")){swich.classList.add("active");}
+        if (!swich.classList.contains("active")) { swich.classList.add("active"); }
         setCompressAutor()
-        playerSlider.value=0;
-        newAudio.currentTime=0;
+        playerSlider.value = 0;
+        newAudio.currentTime = 0;
         newAudio.play();
         equalize(newAudio);
     }
 
-    function endedSong (){
-        if(replaySong.classList.contains("active")){
+    function endedSong() {
+        if (replaySong.classList.contains("active")) {
             audio.play();
         }
-        else{
-            if(document.querySelectorAll(".swiper-slide").length>1){
+        else {
+            if (document.querySelectorAll(".swiper-slide").length > 1) {
                 nextSong.click();
                 cleanPreviousSong(audio);
-                if(!swich.classList.contains("active")){swich.classList.add("active");}
+                if (!swich.classList.contains("active")) { swich.classList.add("active"); }
                 let newAudio = refreshSong();
                 setCompressAutor();
                 newAudio.play();
                 equalize(newAudio);
             }
-            else{
+            else {
                 offSwich();
             }
         }
     }
 
-    function timeupdateSong (){
+    function timeupdateSong() {
         let date = new Date(audio.currentTime * 1000);
         let audioLength = document.querySelector(".player__duration");
         counterAppearance(date, audioLength);
-    
+
         let duration = audio.duration;
         let currentTime = audio.currentTime;
         playerSlider.value = currentTime / duration * 100000;
     }
 
-    function clickPlayer (){
+    function clickPlayer() {
+        audio.pause()
         let sliderValue = playerSlider.value;
         let duration = audio.duration;
         audio.currentTime = sliderValue / 100000 * duration;
     };
 
-    function inputVolume (){
-        let volumeProcent=document.querySelector(".navigation__slider-counter");
-        volumeProcent.innerHTML=volumeSong.value+"%";
-        audio.volume=volumeSong.value/100;
+    function onChangePlayer() {
+        audio.play()
+        let sliderValue = playerSlider.value;
+        let duration = audio.duration;
+        audio.currentTime = sliderValue / 100000 * duration;
+    };
+
+    function inputVolume() {
+        let volumeProcent = document.querySelector(".navigation__slider-counter");
+        volumeProcent.innerHTML = volumeSong.value + "%";
+        audio.volume = volumeSong.value / 100;
         refreshVolumeImage();
     };
 
-    function cleanPreviousSong(audio){
-        audio.removeEventListener('ended',endedSong);
-        audio.removeEventListener('timeupdate',timeupdateSong);
-        playerSlider.removeEventListener('click',clickPlayer);
+    function cleanPreviousSong(audio) {
+        audio.removeEventListener('ended', endedSong);
+        audio.removeEventListener('timeupdate', timeupdateSong);
+        playerSlider.removeEventListener('click', clickPlayer);
         document.querySelectorAll(".swich_btn").forEach(
-            swichButton=>swichButton.removeEventListener('click',clickSwichBtn));
+            swichButton => swichButton.removeEventListener('click', clickSwichBtn));
     }
 }
 
-buttonVolumeSong.addEventListener("click",function(){
-    let volumeContainer=document.querySelector(".navigation__slider-container");
-    if(volumeContainer.classList.contains("active")){volumeContainer.classList.remove("active");}
-    else{volumeContainer.classList.add("active");}
+buttonVolumeSong.addEventListener("click", function () {
+    let volumeContainer = document.querySelector(".navigation__slider-container");
+    if (volumeContainer.classList.contains("active")) { volumeContainer.classList.remove("active"); }
+    else { volumeContainer.classList.add("active"); }
 })
 
-replaySong.addEventListener('click',function(){
-    if(replaySong.classList.contains("active")){replaySong.classList.remove("active")}
-    else{replaySong.classList.add("active")};
+replaySong.addEventListener('click', function () {
+    if (replaySong.classList.contains("active")) { replaySong.classList.remove("active") }
+    else { replaySong.classList.add("active") };
 });
 
-function refreshVolumeImage(){
-    let volumeBtnImage=document.querySelector(".navigation__volume-img");
-    switch(Math.ceil(volumeSong.value/33)){
+function refreshVolumeImage() {
+    let volumeBtnImage = document.querySelector(".navigation__volume-img");
+    switch (Math.ceil(volumeSong.value / 33)) {
         case 0:
-            volumeBtnImage.setAttribute('src',"img/icon/icons5-none.png")
+            volumeBtnImage.setAttribute('src', "img/icon/icons5-none.png")
             break;
         case 1:
-            volumeBtnImage.setAttribute('src',"img/icon/icons5-low.png")
+            volumeBtnImage.setAttribute('src', "img/icon/icons5-low.png")
             break;
         case 2:
-            volumeBtnImage.setAttribute('src',"img/icon/icons5-mid.png")
+            volumeBtnImage.setAttribute('src', "img/icon/icons5-mid.png")
             break;
         case 3:
-            volumeBtnImage.setAttribute('src',"img/icon/icons5-max.png")
+            volumeBtnImage.setAttribute('src', "img/icon/icons5-max.png")
             break;
     }
 }
