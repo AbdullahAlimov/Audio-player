@@ -85,10 +85,12 @@ function addAudioEvents(audio) {
     };
 
     function onChangePlayer() {
-        audio.play()
+        newAudio = refreshSong();
+        newAudio.play()
         let sliderValue = playerSlider.value;
         let duration = audio.duration;
         audio.currentTime = sliderValue / 100000 * duration;
+        cleanPreviousSong(newAudio);
     };
 
     function inputVolume() {
@@ -102,6 +104,7 @@ function addAudioEvents(audio) {
         audio.removeEventListener('ended', endedSong);
         audio.removeEventListener('timeupdate', timeupdateSong);
         playerSlider.removeEventListener('click', clickPlayer);
+        playerSlider.removeEventListener('change', onChangePlayer)
         document.querySelectorAll(".swich_btn").forEach(
             swichButton => swichButton.removeEventListener('click', clickSwichBtn));
     }
