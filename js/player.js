@@ -1,3 +1,4 @@
+
 const swich = document.querySelector(".navigation__swich");
 const playerSlider = document.querySelector(".player__slider");
 const replaySong = document.querySelector(".navigation__replay");
@@ -28,7 +29,7 @@ function addAudioEvents(audio){
 
     audio.addEventListener('timeupdate',timeupdateSong);
 
-    playerSlider.addEventListener('input',inputPlayer);
+    playerSlider.addEventListener('input',clickPlayer);
 
     volumeSong.addEventListener('input',inputVolume);
 
@@ -40,6 +41,8 @@ function addAudioEvents(audio){
         let newAudio = refreshSong();
         if(!swich.classList.contains("active")){swich.classList.add("active");}
         setCompressAutor()
+        playerSlider.value=0;
+        newAudio.currentTime=0;
         newAudio.play();
         equalize(newAudio);
     }
@@ -74,7 +77,7 @@ function addAudioEvents(audio){
         playerSlider.value = currentTime / duration * 100000;
     }
 
-    function inputPlayer (){
+    function clickPlayer (){
         let sliderValue = playerSlider.value;
         let duration = audio.duration;
         audio.currentTime = sliderValue / 100000 * duration;
@@ -90,7 +93,7 @@ function addAudioEvents(audio){
     function cleanPreviousSong(audio){
         audio.removeEventListener('ended',endedSong);
         audio.removeEventListener('timeupdate',timeupdateSong);
-        playerSlider.removeEventListener('input',inputPlayer);
+        playerSlider.removeEventListener('click',clickPlayer);
         document.querySelectorAll(".swich_btn").forEach(
             swichButton=>swichButton.removeEventListener('click',clickSwichBtn));
     }
@@ -128,9 +131,7 @@ function refreshSong() {
 
     audio = document.querySelector(".swiper-slide-active audio");
     addAudioEvents(audio);
-    audio.volume=volumeSong.value/100;
-    audio.currentTime=0;
-    playerSlider.value=0;
+
     return audio;
 }
 
